@@ -1,5 +1,6 @@
 package com.assignment.spring;
 
+import com.assignment.spring.api.Main;
 import com.assignment.spring.api.WeatherResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +26,14 @@ public class WeatherController {
         ResponseEntity<WeatherResponse> response = restTemplate.getForEntity(url, WeatherResponse.class);
         return mapper(response.getBody());
     }
-
+    
     private WeatherEntity mapper(WeatherResponse response) {
         WeatherEntity entity = new WeatherEntity();
-        entity.setCity(response.getName());
-        entity.setCountry(response.getSys().getCountry());
-        entity.setTemperature(response.getMain().getTemp());
-
+		entity.setCity(response.getName());
+		entity.setCountry(response.getSys().getCountry());
+		entity.setTemperature(response.getMain().getTemp());
+		entity.setMaxtemp(response.getMain().getTempMax());
+        
         return weatherRepository.save(entity);
     }
 }
